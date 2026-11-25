@@ -1,5 +1,3 @@
-import { useState } from 'react'
-
 import { AppSidebar } from '@/components/layout/AppSidebar'
 import { AppHeader } from '@/components/layout/AppHeader'
 
@@ -7,11 +5,16 @@ import { DashboardPage } from '@/pages/DashboardPage'
 import { SettingsPage } from '@/pages/SettingsPage'
 
 import { useTheme } from '@/hooks/useTheme'
+import { useNavigation } from '@/hooks/useNavigation'
 
 import './App.css'
 
 function App() {
-  const [activePage, setActivePage] = useState('Dashboard')
+  const {
+    activePage,
+    activeItem,
+    navigate,
+  } = useNavigation()
 
   const {
     theme,
@@ -22,10 +25,10 @@ function App() {
 
   function renderPage() {
     switch (activePage) {
-      case 'Dashboard':
+      case 'dashboard':
         return <DashboardPage />
 
-      case 'Settings':
+      case 'settings':
         return (
           <SettingsPage
             theme={theme}
@@ -36,8 +39,9 @@ function App() {
       default:
         return (
           <div className="panel placeholder">
-            <h3>{activePage}</h3>
-            <p>
+            <h3>{activeItem.label}</h3>
+            <p>{activeItem.description}</p>
+            <p className="mt-2">
               This module will be implemented in an
               upcoming development phase.
             </p>
@@ -50,12 +54,12 @@ function App() {
     <div className="app-layout">
       <AppSidebar
         activePage={activePage}
-        onNavigate={setActivePage}
+        onNavigate={navigate}
       />
 
       <main className="main-content">
         <AppHeader
-          activePage={activePage}
+          activePage={activeItem.label}
           resolvedTheme={resolvedTheme}
           onToggleTheme={toggleTheme}
         />

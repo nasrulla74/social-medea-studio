@@ -1,16 +1,4 @@
-
-import { useLocalStorage } from '@/hooks/useLocalStorage'
-
 import {
-  LayoutDashboard,
-  Users,
-  Palette,
-  Bot,
-  CalendarDays,
-  Megaphone,
-  ChartNoAxesCombined,
-  CreditCard,
-  Settings,
   PanelLeftClose,
   PanelLeftOpen,
 } from 'lucide-react'
@@ -23,21 +11,13 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 
-const navigation = [
-  { label: 'Dashboard', icon: LayoutDashboard },
-  { label: 'Clients', icon: Users },
-  { label: 'Brand Studio', icon: Palette },
-  { label: 'AI Agents', icon: Bot },
-  { label: 'Content Calendar', icon: CalendarDays },
-  { label: 'Campaigns', icon: Megaphone },
-  { label: 'Analytics', icon: ChartNoAxesCombined },
-  { label: 'Billing', icon: CreditCard },
-  { label: 'Settings', icon: Settings },
-]
+import { useLocalStorage } from '@/hooks/useLocalStorage'
+import { navigationItems } from '@/config/navigation'
+import type { NavigationId } from '@/config/navigation'
 
 interface AppSidebarProps {
-  activePage: string
-  onNavigate: (page: string) => void
+  activePage: NavigationId
+  onNavigate: (page: NavigationId) => void
 }
 
 export function AppSidebar({
@@ -57,73 +37,101 @@ export function AppSidebar({
     >
       <div className="studio-sidebar-header">
         {!collapsed && (
-          <span className="studio-brand">
+          <span className="studio-sidebar-brand">
             Social Medea
           </span>
         )}
 
         <IconButton
           icon={collapsed ? PanelLeftOpen : PanelLeftClose}
-          label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+          label={
+            collapsed
+              ? 'Expand sidebar'
+              : 'Collapse sidebar'
+          }
           onClick={() => setCollapsed(!collapsed)}
-          className="studio-sidebar-toggle"
+          className="text-zinc-300 hover:bg-white/10 hover:text-white"
         />
       </div>
 
-      <nav className="studio-navigation">
-        {navigation.map(({ label, icon: Icon }) => (
-          <Tooltip key={`${label}-${collapsed}`} disabled={!collapsed}>
-            <TooltipTrigger
-              render={
-                <button
-                  type="button"
-                  aria-label={label}
-                  aria-current={
-                    activePage === label ? 'page' : undefined
-                  }
-                  className={`studio-nav-button ${
-                    activePage === label ? 'is-active' : ''
-                  }`}
-                  onClick={() => onNavigate(label)}
-                />
-              }
+      <nav
+        className="studio-sidebar-nav"
+        aria-label="Main navigation"
+      >
+        {navigationItems.map((item) => {
+          const Icon = item.icon
+          const selected = activePage === item.id
+
+          return (
+            <Tooltip
+              key={`${item.id}-${collapsed}`}
+              disabled={!collapsed}
             >
-              <Icon size={18} strokeWidth={1.7} />
+              <TooltipTrigger
+                render={
+                  <button
+                    type="button"
+                    aria-label={item.label}
+                    aria-current={
+                      selected ? 'page' : undefined
+                    }
+                    className={`studio-nav-button ${
+                      selected ? 'is-active' : ''
+                    }`}
+                    onClick={() => onNavigate(item.id)}
+                  />
+                }
+              >
+                <Icon size={18} strokeWidth={1.7} />
 
-              {!collapsed && <span>{label}</span>}
-            </TooltipTrigger>
+                {!collapsed && (
+                  <span>{item.label}</span>
+                )}
+              </TooltipTrigger>
 
-            <TooltipContent side="right" sideOffset={8}>
-  {label}
-</TooltipContent>
-          </Tooltip>
-        ))}
+              <TooltipContent
+                side="right"
+                sideOffset={8}
+              >
+                {item.label}
+              </TooltipContent>
+            </Tooltip>
+          )
+        })}
       </nav>
 
       <div className="studio-sidebar-footer">
-        <Tooltip key={`profile-${collapsed}`} disabled={!collapsed}>
+        <Tooltip
+          key={`profile-${collapsed}`}
+          disabled={!collapsed}
+        >
           <TooltipTrigger
             render={
               <div
-                className="studio-profile"
+                className="studio-sidebar-profile"
                 tabIndex={0}
-                aria-label="Agency Administrator"
               />
             }
           >
-            <div className="studio-avatar">A</div>
+            <div className="studio-sidebar-avatar">
+              A
+            </div>
 
             {!collapsed && (
-              <div className="studio-profile-info">
-                <strong>Agency Admin</strong>
-                <span>Administrator</span>
+              <div className="studio-sidebar-profile-text">
+                <div className="studio-sidebar-profile-name">
+                  Agency Admin
+                </div>
+                <div className="studio-sidebar-profile-role">
+                  Administrator
+                </div>
               </div>
             )}
           </TooltipTrigger>
 
           <TooltipContent side="right" sideOffset={8}>
-  Agency Administrator
-</TooltipContent>
+            Agency Administrator
+          </TooltipContent>
         </Tooltip>
       </div>
     </aside>
