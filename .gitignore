@@ -43,3 +43,28 @@ uploads/
 # Generated secrets
 *.pem
 *.key
+
+# Electron generated files
+dist-electron/
+*.AppImage
+*.deb
+*.rpm
+
+# Temporary and backup files
+*.bak
+*.backup
+*.tmp
+*.swp
+*~
+
+# Local caches
+.cache/
+.vite/
+.eslintcache
+
+# Local AI models
+*.gguf
+*.safetensors
+
+# Linux temporary files
+.Trash-*
