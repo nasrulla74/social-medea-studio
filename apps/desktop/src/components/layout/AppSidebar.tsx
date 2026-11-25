@@ -1,5 +1,5 @@
 
-import { useState } from 'react'
+import { useLocalStorage } from '@/hooks/useLocalStorage'
 
 import {
   LayoutDashboard,
@@ -44,7 +44,10 @@ export function AppSidebar({
   activePage,
   onNavigate,
 }: AppSidebarProps) {
-  const [collapsed, setCollapsed] = useState(true)
+  const [collapsed, setCollapsed] = useLocalStorage<boolean>(
+    'social-medea-sidebar-collapsed',
+    true
+  )
 
   return (
     <aside
