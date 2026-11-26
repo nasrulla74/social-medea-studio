@@ -28,29 +28,6 @@
   padding: 16px;
 }
 
-.panel {
-  background: var(--card);
-  color: var(--card-foreground);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 16px;
-}
-
-.placeholder {
-  min-height: 200px;
-}
-
-.placeholder h3 {
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 8px;
-}
-
-.placeholder p {
-  font-size: 12px;
-  color: var(--muted-foreground);
-}
-
 /* ========================================
    Compact Studio Sidebar
    ======================================== */
@@ -58,7 +35,7 @@
 .studio-sidebar {
   width: 200px;
   min-width: 200px;
-  height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   background: #24262b;
@@ -66,6 +43,7 @@
   border-right: 1px solid #35383e;
   transition: width 150ms ease, min-width 150ms ease;
   flex-shrink: 0;
+  min-height: 0;
 }
 
 .studio-sidebar.is-collapsed {
@@ -85,33 +63,7 @@
   border-bottom: 1px solid #35383e;
 }
 
-.studio-brand {
-  font-size: 13px;
-  font-weight: 600;
-  color: #f4f4f5;
-  white-space: nowrap;
-}
-
-.studio-sidebar-toggle {
-  color: #d4d4d8;
-}
-
-.studio-sidebar-toggle:hover {
-  background: #3f4249;
-  color: #ffffff;
-}
-
 /* Navigation */
-
-.studio-navigation {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  padding: 8px 6px;
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
-}
 
 .studio-nav-button {
   width: 100%;
@@ -165,53 +117,11 @@
   padding: 0;
 }
 
-/* Sidebar footer */
-
 .studio-sidebar-footer {
   padding: 8px;
   border-top: 1px solid #35383e;
-}
-
-.studio-profile {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.studio-avatar {
-  width: 28px;
-  height: 28px;
-  min-width: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #42464e;
-  color: #ffffff;
-  border-radius: 6px;
-  font-size: 12px;
-  font-weight: 500;
-}
-
-.studio-profile-info {
-  display: flex;
-  flex-direction: column;
-  white-space: nowrap;
-  overflow: hidden;
-}
-
-.studio-profile-info strong {
-  color: #e4e4e7;
-  font-size: 12px;
-  font-weight: 500;
-}
-
-.studio-profile-info span {
-  color: #a1a1aa;
-  font-size: 10px;
-}
-
-.is-collapsed .studio-profile {
-  justify-content: center;
+  margin-top: auto;
+  flex-shrink: 0;
 }
 
 /* ========================================
@@ -276,25 +186,11 @@
 
 /* Sidebar profile alignment */
 
-.studio-sidebar {
-  height: 100%;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
-}
-
 .studio-sidebar-nav {
   flex: 1;
   min-height: 0;
   overflow-y: auto;
   overflow-x: hidden;
-}
-
-.studio-sidebar-footer {
-  margin-top: auto;
-  flex-shrink: 0;
-  padding: 8px;
-  border-top: 1px solid #35383e;
 }
 
 .studio-sidebar-profile {
@@ -357,4 +253,3 @@
   justify-content: center;
   padding: 4px 0;
 }
-

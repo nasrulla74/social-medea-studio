@@ -1,5 +1,6 @@
 import { AppSidebar } from '@/components/layout/AppSidebar'
 import { AppHeader } from '@/components/layout/AppHeader'
+import { ModulePlaceholder } from '@/components/common/ModulePlaceholder'
 
 import { DashboardPage } from '@/pages/DashboardPage'
 import { SettingsPage } from '@/pages/SettingsPage'
@@ -38,14 +39,11 @@ function App() {
 
       default:
         return (
-          <div className="panel placeholder">
-            <h3>{activeItem.label}</h3>
-            <p>{activeItem.description}</p>
-            <p className="mt-2">
-              This module will be implemented in an
-              upcoming development phase.
-            </p>
-          </div>
+          <ModulePlaceholder
+            title={activeItem.label}
+            description={activeItem.description}
+            icon={activeItem.icon}
+          />
         )
     }
   }

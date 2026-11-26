@@ -1,5 +1,5 @@
 import { app, BrowserWindow } from 'electron';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import path from 'node:path';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -28,16 +28,82 @@ let win: BrowserWindow | null;
 
 function createWindow() {
   win = new BrowserWindow({
+    title: 'Social Medea Studio',
+    width: 1440,
+    height: 900,
+    minWidth: 1100,
+    minHeight: 700,
+    center: true,
+    resizable: true,
+    maximizable: true,
+    minimizable: true,
+    fullscreenable: true,
+    autoHideMenuBar: true,
     icon: path.join(process.env.VITE_PUBLIC, 'electron-vite.svg'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.mjs'),
+
+      // Renderer security
+      contextIsolation: true,
+      nodeIntegration: false,
+      nodeIntegrationInWorker: false,
+      nodeIntegrationInSubFrames: false,
+      sandbox: true,
+      webSecurity: true,
+      allowRunningInsecureContent: false,
+      webviewTag: false,
     },
   });
 
-  // Test active push message to Renderer-process.
-  win.webContents.on('did-finish-load', () => {
-    win?.webContents.send('main-process-message', new Date().toLocaleString());
+  // Restrict navigation to the application.
+  const allowedURL = VITE_DEV_SERVER_URL
+    ? new URL(VITE_DEV_SERVER_URL)
+    : pathToFileURL(path.join(RENDERER_DIST, 'index.html'));
+
+  function isAllowedNavigation(targetURL: string): boolean {
+    try {
+      const target = new URL(targetURL);
+
+      if (VITE_DEV_SERVER_URL) {
+        return target.origin === allowedURL.origin;
+      }
+
+      target.hash = '';
+      target.search = '';
+
+      return target.href === allowedURL.href;
+    } catch {
+      return false;
+    }
+  }
+
+  win.webContents.on('will-navigate', (event, targetURL) => {
+    if (!isAllowedNavigation(targetURL)) {
+      event.preventDefault();
+    }
   });
+
+  win.webContents.on('will-redirect', (event, targetURL) => {
+    if (!isAllowedNavigation(targetURL)) {
+      event.preventDefault();
+    }
+  });
+
+  // Deny unauthorized popup windows.
+  win.webContents.setWindowOpenHandler(() => {
+    return { action: 'deny' };
+  });
+
+  // Deny permissions unless explicitly implemented.
+  win.webContents.session.setPermissionRequestHandler(
+    (_webContents, _permission, callback) => {
+      callback(false);
+    }
+  );
+
+  win.webContents.session.setPermissionCheckHandler(
+    () => false
+  );
 
   if (VITE_DEV_SERVER_URL) {
     win.loadURL(VITE_DEV_SERVER_URL);

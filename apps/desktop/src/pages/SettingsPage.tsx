@@ -1,3 +1,6 @@
+import { PageContainer } from '@/components/layout/PageContainer'
+import { PageHeader } from '@/components/layout/PageHeader'
+
 import { Monitor, Moon, Sun, Palette, Check } from 'lucide-react'
 
 import {
@@ -40,16 +43,11 @@ export function SettingsPage({
   onThemeChange,
 }: SettingsPageProps) {
   return (
-    <div className="flex flex-col gap-[12px]">
-      <div>
-        <h1 className="text-[20px] font-semibold tracking-tight">
-          Settings
-        </h1>
-
-        <p className="mt-1 text-[12px] text-muted-foreground">
-          Manage your application preferences.
-        </p>
-      </div>
+    <PageContainer>
+      <PageHeader
+        title="Settings"
+        description="Manage your application preferences."
+      />
 
       <Card className="max-w-[760px] gap-[12px] rounded-[6px] py-[12px] shadow-none">
         <CardHeader className="px-[12px]">
@@ -118,6 +116,6 @@ export function SettingsPage({
           </div>
         </CardContent>
       </Card>
-    </div>
+    </PageContainer>
   )
 }

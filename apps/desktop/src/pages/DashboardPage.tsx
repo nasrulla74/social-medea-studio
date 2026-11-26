@@ -1,4 +1,3 @@
-
 import {
   Users,
   CalendarDays,
@@ -6,23 +5,20 @@ import {
   Bot,
 } from 'lucide-react'
 
+import { PageContainer } from '@/components/layout/PageContainer'
+import { PageHeader } from '@/components/layout/PageHeader'
+
 import { StatCard } from '@/components/dashboard/StatCard'
 import { ProductionOverview } from '@/components/dashboard/ProductionOverview'
 import { AgentStatus } from '@/components/dashboard/AgentStatus'
 
 export function DashboardPage() {
   return (
-    <div className="flex flex-col gap-[12px]">
-      {/* Page heading */}
-      <div>
-        <h1 className="text-[20px] font-semibold tracking-tight">
-          Dashboard
-        </h1>
-
-        <p className="mt-1 text-[12px] text-muted-foreground">
-          Manage your clients, content and AI workflows.
-        </p>
-      </div>
+    <PageContainer>
+      <PageHeader
+        title="Dashboard"
+        description="Manage your clients, content and AI workflows."
+      />
 
       {/* Dashboard statistics */}
       <div className="grid grid-cols-1 gap-[12px] sm:grid-cols-2 xl:grid-cols-4">
@@ -60,6 +56,6 @@ export function DashboardPage() {
         <ProductionOverview />
         <AgentStatus />
       </div>
-    </div>
+    </PageContainer>
   )
 }
