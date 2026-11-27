@@ -1,22 +1,28 @@
-// @see - https://www.electron.build/configuration/configuration
 {
   "$schema": "https://raw.githubusercontent.com/electron-userland/electron-builder/master/packages/app-builder-lib/scheme.json",
-  "appId": "YourAppID",
+
+  "appId": "com.socialmedea.studio",
+  "productName": "Social Medea Studio",
+  "executableName": "social-medea-studio",
+
   "asar": true,
-  "productName": "YourAppName",
+
   "directories": {
     "output": "release/${version}"
   },
+
   "files": [
     "dist",
     "dist-electron"
   ],
+
   "mac": {
     "target": [
       "dmg"
     ],
-    "artifactName": "${productName}-Mac-${version}-Installer.${ext}"
+    "artifactName": "Social-Medea-Studio-${version}-macOS-${arch}.${ext}"
   },
+
   "win": {
     "target": [
       {
@@ -26,18 +32,26 @@
         ]
       }
     ],
-    "artifactName": "${productName}-Windows-${version}-Setup.${ext}"
+    "artifactName": "Social-Medea-Studio-${version}-Windows-${arch}.${ext}"
   },
+
   "nsis": {
     "oneClick": false,
     "perMachine": false,
     "allowToChangeInstallationDirectory": true,
     "deleteAppDataOnUninstall": false
   },
+
   "linux": {
+    "category": "Office",
     "target": [
-      "AppImage"
+      {
+        "target": "AppImage",
+        "arch": [
+          "x64"
+        ]
+      }
     ],
-    "artifactName": "${productName}-Linux-${version}.${ext}"
+    "artifactName": "Social-Medea-Studio-${version}-Linux-${arch}.${ext}"
   }
 }

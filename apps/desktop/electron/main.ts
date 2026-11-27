@@ -15,8 +15,45 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // │
 process.env.APP_ROOT = path.join(__dirname, '..');
 
-// 🚧 Use ['ENV_NAME'] avoid vite:define plugin - Vite@2.x
-export const VITE_DEV_SERVER_URL = process.env['VITE_DEV_SERVER_URL'];
+// Packaged applications must always load bundled files.
+function getDevelopmentServerURL(): string | undefined {
+  if (app.isPackaged) {
+    return undefined;
+  }
+
+  const value = process.env['VITE_DEV_SERVER_URL'];
+
+  if (!value) {
+    return undefined;
+  }
+
+  try {
+    const url = new URL(value);
+
+    const allowedHosts = [
+      'localhost',
+      '127.0.0.1',
+      '[::1]',
+    ];
+
+    if (
+      url.protocol !== 'http:' ||
+      !allowedHosts.includes(url.hostname) ||
+      url.username ||
+      url.password
+    ) {
+      throw new Error('Invalid development server URL');
+    }
+
+    return url.href;
+  } catch {
+    throw new Error(
+      'VITE_DEV_SERVER_URL must be a valid local HTTP URL.'
+    );
+  }
+}
+
+export const VITE_DEV_SERVER_URL = getDevelopmentServerURL();
 export const MAIN_DIST = path.join(process.env.APP_ROOT, 'dist-electron');
 export const RENDERER_DIST = path.join(process.env.APP_ROOT, 'dist');
 

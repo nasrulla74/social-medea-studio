@@ -7,12 +7,12 @@ import react from '@vitejs/plugin-react';
 import {
   developmentCSP,
   productionCSP,
-} from './config/security/csp';
+} from './config/security/csp.ts';
 
 export default defineConfig(({ command }) => ({
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
+      '@': path.resolve(import.meta.dirname, './src'),
     },
   },
 
@@ -51,7 +51,7 @@ export default defineConfig(({ command }) => ({
       },
 
       preload: {
-        input: path.join(__dirname, 'electron/preload.ts'),
+        input: path.join(import.meta.dirname, 'electron/preload.ts'),
       },
     }),
   ],
