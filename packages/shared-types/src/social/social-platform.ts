@@ -1,0 +1,48 @@
+export const SOCIAL_PLATFORMS = [
+  'facebook',
+  'instagram',
+  'tiktok',
+  'youtube',
+  'linkedin',
+  'x',
+  'threads',
+  'pinterest',
+  'snapchat',
+  'bluesky',
+  'mastodon',
+  'reddit',
+  'telegram',
+  'whatsapp',
+  'viber',
+  'discord',
+  'google_business',
+  'tumblr',
+  'nostr',
+  'other',
+] as const
+
+export type SocialPlatform =
+  (typeof SOCIAL_PLATFORMS)[number]
+
+export const SOCIAL_PLATFORM_LABELS = {
+  facebook: 'Facebook',
+  instagram: 'Instagram',
+  tiktok: 'TikTok',
+  youtube: 'YouTube',
+  linkedin: 'LinkedIn',
+  x: 'X (Twitter)',
+  threads: 'Threads',
+  pinterest: 'Pinterest',
+  snapchat: 'Snapchat',
+  bluesky: 'Bluesky',
+  mastodon: 'Mastodon',
+  reddit: 'Reddit',
+  telegram: 'Telegram',
+  whatsapp: 'WhatsApp',
+  viber: 'Viber',
+  discord: 'Discord',
+  google_business: 'Google Business Profile',
+  tumblr: 'Tumblr',
+  nostr: 'Nostr',
+  other: 'Other',
+} as const satisfies Record<SocialPlatform, string>
